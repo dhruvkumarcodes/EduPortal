@@ -43,6 +43,46 @@ export const createCourse = async (req, res) => {
             course,
         })
     } catch (error) {
+        res.status(500).json({ errors: "error in creating course" })
         console.log("error")
+    }
+}
+
+export const updateCourse = async (req, res) => {
+    const { courseId } = req.params;
+    const { title, description, price, image } = req.body;
+    try {
+        const course = await Course.updateOne({
+            _id: courseId
+        }, {
+            title,
+            description,
+            price,
+            image: {
+                public_id: image?.public_id,
+                url: image?.url,
+            }
+        }
+        )
+        res.status(201).json({ message: "course updated Successfully" })
+    } catch (error) {
+        res.status(500).json({ errors: "Error in course Updation" })
+        console.log("Error in Updating Course", Error)
+    }
+}
+
+export const deleteCourse = async (req, res) => {
+    const { courseId } = req.params;
+    try {
+        const course = await Course.findOneAndDelete({
+            _id: courseId,
+        })
+        if (!course) {
+            res.status(500).json({ errors: "course not found" })
+        }
+        res.status(200).json({ message: "course deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ errors: "error while deleting course" });
+        console.log("error in deleting course");
     }
 }

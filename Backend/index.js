@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { v2 as cloudinary } from 'cloudinary';
-import courseRoute from "./routes/routes.js";
+import courseRoute from "./routes/courseroutes.js";
 import fileUpload from "express-fileupload";
 
 const app = express();
@@ -34,6 +34,7 @@ try {
 }
 
 app.use("/api/v1/course", courseRoute);
+
 
 app.listen(port, () => {
     console.log(`running on ${port}`);
