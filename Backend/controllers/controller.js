@@ -86,3 +86,27 @@ export const deleteCourse = async (req, res) => {
         console.log("error in deleting course");
     }
 }
+
+export const getCourses = async (req, res) => {
+    try {
+        const courses = await Course.find({})
+        res.status(200).json({ courses })
+    } catch (error) {
+        res.status(500).json({ errors: "unable to fetch all courses" })
+        console.log("error in fetching courses")
+    }
+}
+
+export const courseDetails = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ error: "Course not Found" })
+        }
+        res.status(200).json({ course });
+    } catch (error) {
+        res.status(500).json({ errors: "error Fetching Details" })
+        console.log("error fetching data")
+    }
+}
